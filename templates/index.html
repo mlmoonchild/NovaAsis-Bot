@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nova Chat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="logo">
+      Nova AI
+    </div>
+
+    <button class="new-chat-btn" onclick="newChat()">
+      + Новый чат
+    </button>
+
+    <div class="chat-list" id="chatList">
+      <!-- список чатов -->
+    </div>
+
+    <div class="sidebar-footer">
+      <small>local version</small>
+    </div>
+
+  </aside>
+
+  <!-- MAIN CHAT -->
+  <main class="main">
+
+    <header class="top-bar">
+      <div class="title">Чат</div>
+    </header>
+
+    <section class="messages" id="messages">
+      <!-- сообщения -->
+      <div class="welcome">
+        <h2>Nova AI</h2>
+        <p>Напиши сообщение, чтобы начать диалог</p>
+      </div>
+    </section>
+
+    <footer class="input-area">
+
+      <input
+        id="input"
+        type="text"
+        placeholder="Напиши сообщение..."
+        autocomplete="off"
+      />
+
+      <button onclick="sendMessage()">
+        Отправить
+      </button>
+
+    </footer>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
