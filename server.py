@@ -1,43 +1,38 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import requests
+import os
 
 app = Flask(__name__)
 
-API_KEY = "test"
-
-# проверка что сервер жив
+# 🌐 ГЛАВНАЯ СТРАНИЦА (ТО ЧТО ТЫ НЕ ВИДЕЛ)
 @app.route("/")
 def home():
-    return "Nova server работает"
+    return render_template("index.html")
 
-# основной чат-эндпоинт
+
+# 🤖 CHAT API
 @app.route("/chat", methods=["POST"])
 def chat():
-    try:
-        data = request.json
-        messages = data.get("messages", [])
+    data = request.json
+    messages = data.get("messages", [])
 
-        response = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {API_KEY}",
-                "Content-Type": "application/json"
-            },
-            json={
-                "model": "openai/gpt-4o-mini",
-                "messages": messages
-            }
-        )
+    api_key = os.getenv("OPENROUTER_API_KEY")
 
-        result = response.json()
+    response = requests.post(
+        "https://openrouter.ai/api/v1/chat/completions",
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json"
+        },
+        json={
+            "model": "gpt-4o-mini",
+            "messages": messages
+        }
+    )
 
-        return jsonify(result)
-
-    except Exception as e:
-        return jsonify({
-            "error": str(e)
-        }), 500
+    return jsonify(response.json())
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+# 🚀 RAILWAY PORT
+port = int(os.environ.get("PORT", 10000))
+app.run(host="0.0.0.0", port=port)
